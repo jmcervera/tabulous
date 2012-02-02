@@ -3,7 +3,7 @@ module Tabulous
   def self.setup
     yield self
   end
-  
+
   def self.tabs(&block)
     @@tabs_block = block
   end
@@ -19,8 +19,8 @@ module Tabulous
     html << embed_styles
     active_tab = active_tab(view)
     active_tab_name = (active_tab ? active_tab.name : nil);
-    html << (@@html5 ? '<nav id="' + @@wrapper_id + '"">' : '<div id="' + @@wrapper_id + '">') unless !@@use_wrapper
-    html << (@@container_class.empty? ? '<ul>' : '<ul class="' + @@container_class + '">')
+    #html << (@@html5 ? '<nav id="' + @@wrapper_id + '"">' : '<div id="' + @@wrapper_id + '">') unless !@@use_wrapper
+    html << (@@container_class.empty? ? '<ul class="nav">' : '<ul class="' + @@container_class + '">')
     for tab in main_tabs
       next if !tab.visible?(view)
       html << render_tab(:text => tab.text(view),
@@ -32,7 +32,7 @@ module Tabulous
     html << (@@html5 ? '</nav>' : '</div>') unless !@@use_wrapper
     view.raw(html)
   end
-  
+
   def self.render_subtabs(view)
     initialize_tabs(view)
     return if !tab_defined?(view) && @@when_action_has_no_tab == :do_not_render
@@ -40,8 +40,8 @@ module Tabulous
     action = view.action_name.to_sym
     tab = active_tab(view)
     html = ''
-    html << (@@html5 ? '<nav id="subtabs">' : '<div id="subtabs">')
-    html << '<ul>'
+    #html << (@@html5 ? '<nav id="subtabs">' : '<div id="subtabs">')
+    html << '<ul class="nav pills">'
     if tab.nil?
       subtabs = []
     else
@@ -103,7 +103,7 @@ module Tabulous
       @@tabs << tab
     end
   end
-  
+
   def self.actions=(ary)
     @@actions = {}
     ary.each do |a|
@@ -120,11 +120,11 @@ module Tabulous
       @@actions[controller][action] << tab
     end
   end
-  
+
   def self.main_tabs
     @@tabs.select { |t| !t.subtab? }
   end
-  
+
   def self.active_tab(view)
     controller = view.controller_name.to_sym
     action = view.action_name.to_sym
