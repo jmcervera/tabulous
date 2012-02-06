@@ -41,7 +41,7 @@ module Tabulous
     tab = active_tab(view)
     html = ''
     #html << (@@html5 ? '<nav id="subtabs">' : '<div id="subtabs">')
-    html << '<ul class="nav pills">'
+    html << '<ul class="nav nav-pills">'
     if tab.nil?
       subtabs = []
     else
